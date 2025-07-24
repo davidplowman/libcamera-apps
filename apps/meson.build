@@ -28,6 +28,15 @@ rpicam_jpeg = executable('rpicam-jpeg', files('rpicam_jpeg.cpp'),
                          link_with : rpicam_app,
                          install : true)
 
+cxx = meson.get_compiler('cpp')
+libraw_dep = cxx.find_library('raw', required : true)
+
+rpicam_convert = executable('rpicam-convert', files('rpicam_convert.cpp'),
+                          include_directories : include_directories('..'),
+                          dependencies: [libcamera_dep, boost_dep, libraw_dep],
+                          link_with : rpicam_app,
+                          install : true)
+
 if enable_tflite
     rpicam_detect = executable('rpicam-detect', files('rpicam_detect.cpp'),
                                include_directories : include_directories('..'),
